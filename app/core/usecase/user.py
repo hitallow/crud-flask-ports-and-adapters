@@ -1,6 +1,6 @@
 from typing import Tuple
 
-from app.core.ports.user import GetUserInformationsFromGithubInterfacePort, GetUserMetricsGithubInterfacePort, SaveUserPort, LoadUserPort
+from app.core.ports.user import GetUserInformationsFromGithubInterfacePort, GetUserMetricsGithubInterfacePort, GetUsersInformationsFromGithubWithUsername, SaveUserPort, LoadUserPort
 from app.core.domain.user import SaveUserDTO, User
 
 
@@ -34,11 +34,18 @@ class SaveUserWithGithubUsernameUsecase:
     get_github_informations_port: GetUserInformationsFromGithubInterfacePort
     save_user_interface_port: SaveUserPort
     load_user_port: LoadUserPort
+    get_users_from_github_by_username_port: GetUsersInformationsFromGithubWithUsername
 
-    def __init__(self, save_user_interface_port: SaveUserPort, get_github_informations_port: GetUserInformationsFromGithubInterfacePort, load_user_port: LoadUserPort) -> None:
+    def __init__(self,
+                 save_user_interface_port: SaveUserPort,
+                 get_github_informations_port: GetUserInformationsFromGithubInterfacePort,
+                 load_user_port: LoadUserPort,
+                 get_users_from_github_by_username_port: GetUsersInformationsFromGithubWithUsername
+                 ) -> None:
         self.load_user_port = load_user_port
         self.save_user_interface_port = save_user_interface_port
         self.get_github_informations_port = get_github_informations_port
+        self.get_users_from_github_by_username_port = get_users_from_github_by_username_port
 
     def execute(self, github_username: str) -> Tuple[dict, int]:
 
@@ -51,6 +58,11 @@ class SaveUserWithGithubUsernameUsecase:
         github_informations = self.get_github_informations_port.load_github_informations(
             username=github_username
         )
+
+        if github_informations is None:
+            availible_users = self.get_users_from_github_by_username_port.load_users_by_username(
+                username=github_username, limit=50)
+            return {'message': 'User not found on github', 'availableUsers': availible_users}, 404
 
         user = User(
             username=github_informations.login,

@@ -42,3 +42,9 @@ class GetUserMetricsGithubInterfacePort:
     @abstractclassmethod
     def load_user_metrics(self, user_login: str) -> Optional[GithubUserInformations]:
         raise Exception('Not implemented method : load_user_metrics')
+
+
+class GetUsersInformationsFromGithubWithUsername:
+    @abstractclassmethod
+    def load_users_by_username(self, username: str, limit: int = 50) -> List[GithubUser]:
+        raise Exception('Not implemented method : load_users_by_username')
