@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 from app.database.config.init_database import init_database
 from flask import Flask
 
@@ -5,6 +6,8 @@ from app import register_routes
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
+
+load_dotenv()
 
 
 @app.errorhandler(404)
