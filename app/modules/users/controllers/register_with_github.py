@@ -15,10 +15,12 @@ def register_with_github() -> Tuple[dict, int]:
 
     try:
         user_repository = UserRepository()
+        github_provider = LoadGithubInformations()
         usecase = SaveUserWithGithubUsernameUsecase(
             load_user_port=user_repository,
             save_user_interface_port=user_repository,
-            get_github_informations_port=LoadGithubInformations()
+            get_github_informations_port=github_provider,
+            get_users_from_github_by_username_port=github_provider
         )
 
         response, status_code = usecase.execute(data['username'])
