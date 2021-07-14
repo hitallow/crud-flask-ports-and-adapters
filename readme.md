@@ -1,10 +1,10 @@
 # Bem vindo ao meu teste
 
-Olá, meu nome é Hítallo William e esse é o meu teste. Meu email pessoal é hitallo91@gmail.com
+Olá, meu nome é Hítallo William e esse é o meu projeto. Meu email pessoal é hitallo91@gmail.com
 
 ## Documentação da API
 
-Para acessar a documentação clique [aqui](https://app.swaggerhub.com/apis/hitallow/bitwise-backend_test/1.0)
+Para acessar a documentação clique [aqui](https://app.swaggerhub.com/apis/hitallow/crud-users/1.0)
 
 A documentação foi feita utilizando o swagger
 
