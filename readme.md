@@ -41,20 +41,20 @@ app/core/__init__.py                                         0      0   100%
 app/core/domain/__init__.py                                  0      0   100%
 app/core/domain/user.py                                     54      6    89%
 app/core/ports/__init__.py                                   0      0   100%
-app/core/ports/user.py                                      35      9    74%
+app/core/ports/user.py                                      39     10    74%
 app/core/usecase/__init__.py                                 0      0   100%
-app/core/usecase/user.py                                    87      3    97%
+app/core/usecase/user.py                                   101      4    96%
 app/database/__init__.py                                     0      0   100%
 app/database/config/__init__.py                              0      0   100%
 app/database/config/db_base.py                               2      0   100%
 app/database/config/db_connection.py                        18      8    56%
 app/database/config/init_database.py                         7      7     0%
 app/database/repositories/__init__.py                        0      0   100%
-app/database/repositories/user_repository.py                66     54    18%
+app/database/repositories/user_repository.py                79     66    16%
 app/database/tables/__init__.py                              0      0   100%
 app/database/tables/user.py                                 17      2    88%
 app/modules/__init__.py                                      0      0   100%
-app/modules/users/__init__.py                               17      7    59%
+app/modules/users/__init__.py                               18      8    56%
 app/modules/users/controllers/__init__.py                    0      0   100%
 app/modules/users/controllers/get_user_profile.py           11      6    45%
 app/modules/users/controllers/list_all_users.py             13      8    38%
@@ -63,17 +63,17 @@ app/modules/users/controllers/list_user_by_name.py          13      8    38%
 app/modules/users/controllers/list_user_by_username.py      10      6    40%
 app/modules/users/controllers/register_with_github.py       18     12    33%
 app/modules/users/controllers/save_user.py                  18     13    28%
-app/modules/users/controllers/update_user.py                 4      2    50%
+app/modules/users/controllers/update_user.py                14      9    36%
 app/modules/users/services/__init__.py                       0      0   100%
-app/modules/users/services/github_api.py                    47     35    26%
+app/modules/users/services/github_api.py                    50     38    24%
 app/testing/__init__.py                                      0      0   100%
 app/testing/core/__init__.py                                 0      0   100%
 app/testing/core/domain/__init__.py                          0      0   100%
 app/testing/core/domain/user_test.py                        33      0   100%
 app/testing/core/usecase/__init__.py                         0      0   100%
-app/testing/core/usecase/user_usercase_test.py             158      0   100%
+app/testing/core/usecase/user_usercase_test.py             184      0   100%
 ----------------------------------------------------------------------------
-TOTAL                                                      643    194    70%
+TOTAL                                                      714    219    69%
 ```
 É possível verificar a veracidade instalando o coverage com o comando:
 ```
