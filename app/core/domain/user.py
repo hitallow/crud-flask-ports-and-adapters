@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import Optional
 
 
 class GenderEnum(str, Enum):
@@ -11,15 +10,6 @@ class GenderEnum(str, Enum):
 
 @dataclass
 class User:
-    id: Optional[int]
-    username: str
-    name: str
-    last_name: str
-    profile_image_url: str
-    bio: str
-    email: str
-    gender: str
-
     def __init__(self,
                  username: str,
                  name: str,
@@ -45,10 +35,6 @@ class User:
 
 @dataclass
 class SaveUserDTO:
-    username: str
-    name: str
-    email: str
-
     def __init__(self, username: str, name: str, email: str) -> None:
         self.name = name
         self.username = username
@@ -64,12 +50,20 @@ class SaveUserDTO:
 
 @dataclass
 class GithubUser:
-    name: str
-    profileImageUrl: str
-    email: str
-    bio: str
-    login: str
-    gender: str
+    def __init__(self,
+                 name: str,
+                 profileImageUrl: str,
+                 email: str,
+                 bio: str,
+                 login: str,
+                 gender: str,
+                 ) -> None:
+        self.name = name
+        self.profileImageUrl = profileImageUrl
+        self.email = email
+        self.bio = bio
+        self.login = login
+        self.gender = gender
 
     def __repr__(self) -> str:
         return '<GithubUser %r>' % (self.name)
@@ -77,7 +71,13 @@ class GithubUser:
 
 @dataclass
 class GithubUserInformations:
-    total_followers: int
-    total_public_repositories: int
-    total_following: int
-    profile_url: int
+    def __init__(self,
+                 total_followers: int,
+                 total_public_repositories: int,
+                 total_following: int,
+                 profile_url: int
+                 ) -> None:
+        self.total_followers = total_followers
+        self.total_public_repositories = total_public_repositories
+        self.total_following = total_following
+        self.profile_url = profile_url
