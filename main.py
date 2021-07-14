@@ -1,3 +1,4 @@
+import os
 from dotenv import load_dotenv
 from app.database.config.init_database import init_database
 from flask import Flask
@@ -19,4 +20,5 @@ register_routes(app)
 init_database()
 
 if __name__ == '__main__':
-    app.run()
+    app_port = os.getenv('APP_PORT',8081)
+    app.run(host='0.0.0.0', port=app_port)
