@@ -1,6 +1,6 @@
 from typing import Tuple
 
-from app.core.ports.user import GetUserInformationsFromGithubInterfacePort, GetUserMetricsGithubInterfacePort, GetUsersInformationsFromGithubWithUsername, SaveUserPort, LoadUserPort
+from app.core.ports.user import GetUserInformationsFromGithubInterfacePort, GetUserMetricsGithubInterfacePort, GetUsersInformationsFromGithubWithUsername, SaveUserPort, LoadUserPort, UpdateUserPort
 from app.core.domain.user import SaveUserDTO, User
 
 
@@ -20,7 +20,8 @@ class SaveUserUsecase:
         if user is not None:
             return {'message': 'User with same email saved'}, 400
 
-        user = self.load_user_port.load_user_by_username(username=userToSave.username)
+        user = self.load_user_port.load_user_by_username(
+            username=userToSave.username)
 
         if user is not None:
             return {'message': 'User with same name saved'}, 400
@@ -157,3 +158,28 @@ class LoadUserByLikeNameUsecase:
         users = self.load_user_port.load_user_by_like_name(
             like_name=like_name, limit=limit, offset=offset)
         return {'users': users}, 200
+
+
+class UpdateUserUsecase:
+    load_user_port: LoadUserPort
+    update_user_port: UpdateUserPort
+
+    def __init__(self, load_user_port: LoadUserPort, update_user_port: UpdateUserPort) -> None:
+        self.update_user_port = update_user_port
+        self.load_user_port = load_user_port
+
+    def execute(self, user_id: int, user: User) -> Tuple[dict, int]:
+        if not user_id:
+            return {'message': 'Id is required'}, 400
+
+        user_saved = self.load_user_port.load_user_by_id(user_id)
+
+        if user_saved is None:
+            return {'message': 'User not found'}, 400
+
+        result = self.update_user_port.update_user(
+            user=user,
+            user_id=user_id
+        )
+
+        return {'user': result}, 200

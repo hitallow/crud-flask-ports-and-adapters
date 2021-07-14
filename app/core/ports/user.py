@@ -26,6 +26,12 @@ class LoadUserPort:
         raise Exception('Not implemented method')
 
 
+class UpdateUserPort:
+    @abstractclassmethod
+    def update_user(self, user_id: int, user: User) -> User:
+        raise Exception('Not implemented method update_user on UpdateUserPort')
+
+
 class SaveUserPort:
     @abstractclassmethod
     def save(self, user: Union[SaveUserDTO, User]) -> User:
