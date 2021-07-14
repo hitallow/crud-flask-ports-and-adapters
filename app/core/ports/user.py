@@ -28,7 +28,7 @@ class LoadUserPort:
 
 class SaveUserPort:
     @abstractclassmethod
-    def save(self, user: Union[SaveUserDTO, User]) -> dict:
+    def save(self, user: Union[SaveUserDTO, User]) -> User:
         raise Exception('Not implemented method save on SaveNewUserPort')
 
 
