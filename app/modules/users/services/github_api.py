@@ -120,6 +120,20 @@ class LoadGithubInformations(GetUserInformationsFromGithubInterfacePort,
         headers = self._get_headers()
         response = requests.post(self._base_url,
                                  json=body, headers=headers)
-        users: List[GithubUserInformations] = []
-        print(users)
+        response_json = response.json()
+        users: List[GithubUser] = []
+        if response.status_code == 200 and 'data' in response_json and 'search' in response_json['data'] and 'nodes' in response_json['data']['search']:
+            item: dict
+            for item in response_json['data']['search']['nodes']:
+                users.append(
+                    GithubUser(
+                        name=item.get('name', ''),
+                        email=item.get('email', ''),
+                        login=item.get('login', ''),
+                        bio=item.get('bio', ''),
+                        profileImageUrl=item.get('avatarUrl', ''),
+                        gender=item.get('gender', 'Not Specified')
+                    )
+                )
+
         return users
