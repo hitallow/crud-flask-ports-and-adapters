@@ -16,14 +16,14 @@ class SaveUserUsecase:
         self.save_user_interface_port = save_user_interface_port
 
     def execute(self, userToSave: SaveUserDTO) -> Tuple[dict, int]:
-        user = self.load_user_port.load_user_by_email(userToSave.email)
+        user = self.load_user_port.load_user_by_email(email=userToSave.email)
         if user is not None:
-            return {'message': 'User with same email saved'}, 404
+            return {'message': 'User with same email saved'}, 400
 
-        user = self.load_user_port.load_user_by_username(userToSave.username)
+        user = self.load_user_port.load_user_by_username(username=userToSave.username)
 
         if user is not None:
-            return {'message': 'User with same name saved'}, 404
+            return {'message': 'User with same name saved'}, 400
 
         response = self.save_user_interface_port.save(userToSave)
 
@@ -98,7 +98,7 @@ class LoadUserProfileUsecase:
 
         if hasattr(user, 'username'):
             user_metrics = self.get_user_metrics_port.load_user_metrics(
-                user.username)
+                user_login=user.username)
             if user_metrics is not None:
                 result.update(vars(user_metrics))
 
