@@ -1,9 +1,9 @@
 from app.core.domain.user import GithubUser, GithubUserInformations, SaveUserDTO, User
-from app.core.ports.user import GetUserInformationsFromGithubInterfacePort, GetUserMetricsGithubInterfacePort, GetUsersInformationsFromGithubWithUsername, LoadUserPort, SaveUserPort
+from app.core.ports.user import GetUserInformationsFromGithubInterfacePort, GetUserMetricsGithubInterfacePort, GetUsersInformationsFromGithubWithUsername, LoadUserPort, SaveUserPort, UpdateUserPort
 from unittest import TestCase
 from unittest.mock import Mock
 
-from app.core.usecase.user import LoadUserByEmailUsecase, LoadUserByUsernameUsecase, LoadUserProfileUsecase, LoadUsersUsecase, SaveUserUsecase, SaveUserWithGithubUsernameUsecase
+from app.core.usecase.user import LoadUserByEmailUsecase, LoadUserByUsernameUsecase, LoadUserProfileUsecase, LoadUsersUsecase, SaveUserUsecase, SaveUserWithGithubUsernameUsecase, UpdateUserUsecase
 
 
 class InserNewUserTest(TestCase):
@@ -391,3 +391,67 @@ class LoadUsersUsecaseTestCase(TestCase):
             limit=1, offset=2
         )
         self.assertEqual(status_code, 200)
+
+
+class UpdateUserUsecaseTest(TestCase):
+    def test_should_not_found_user(self):
+        mock_load_user_port = LoadUserPort()
+        mock_update_user_port = UpdateUserPort()
+        mock_load_user_port.load_user_by_id = Mock(return_value=None)
+        mock_update_user_port.update_user = Mock(return_value=None)
+
+        usecase = UpdateUserUsecase(
+            load_user_port=mock_load_user_port,
+            update_user_port=mock_update_user_port
+        )
+
+        response, status_code = usecase.execute(50, User(
+            id=50,
+            bio="killer",
+            email="johnwick@email.com",
+            last_name="johnwixi",
+            name="john",
+            username="johnwick"
+        ))
+        mock_load_user_port.load_user_by_id.assert_called_with(50)
+        mock_update_user_port.update_user.assert_not_called()
+        self.assertEqual(status_code, 400)
+        self.assertEqual(response['message'], 'User not found')
+
+    def test_should_update_user(self):
+        user_saved = User(
+            id=54,
+            bio="killer",
+            email="johnwick@email.com",
+            last_name="johnwixi2",
+            name="johnw",
+            username="johnwick2"
+        )
+
+        mock_load_user_port = LoadUserPort()
+        mock_update_user_port = UpdateUserPort()
+
+        mock_load_user_port.load_user_by_id = Mock(return_value=user_saved)
+        mock_update_user_port.update_user = Mock(return_value=user_saved)
+
+        usecase = UpdateUserUsecase(
+            load_user_port=mock_load_user_port,
+            update_user_port=mock_update_user_port
+        )
+
+        response, status_code = usecase.execute(54, User(
+            id=54,
+            bio="killer",
+            email="johnwick@email.com",
+            last_name="johnwixi",
+            name="john",
+            username="johnwick"
+        ))
+        user: User = response['user']
+
+        mock_load_user_port.load_user_by_id.assert_called_with(54)
+        mock_update_user_port.update_user.assert_called_once()
+
+        self.assertEqual(status_code, 200)
+        self.assertEqual(user.name, 'johnw')
+        self.assertEqual(user.username, 'johnwick2')
