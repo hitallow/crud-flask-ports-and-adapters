@@ -3,10 +3,10 @@ from typing import List, Optional, Union
 
 from app.database.tables.user import UserModel
 from app.core.domain.user import SaveUserDTO, User
-from app.core.ports.user import SaveUserPort, LoadUserPort
+from app.core.ports.user import SaveUserPort, LoadUserPort, UpdateUserPort
 
 
-class UserRepository(LoadUserPort, SaveUserPort):
+class UserRepository(LoadUserPort, SaveUserPort, UpdateUserPort):
     def save(self, user: Union[SaveUserDTO, User]) -> User:
         user_params: User = None
 
@@ -99,5 +99,23 @@ class UserRepository(LoadUserPort, SaveUserPort):
                 )).limit(limit=limit).offset(offset=offset).all()
             except:
                 return []
+            finally:
+                connection.session.close()
+
+    def update_user(self, user_id: int, user: User) -> User:
+        with DBConnection() as connection:
+            try:
+                user_in_database = connection.session.query(
+                    UserModel).filter_by(id=user_id).first()
+
+                user_in_database.gender = user.gender
+                user_in_database.bio = user.bio
+                user_in_database.profile_image_url = user.profile_image_url
+                user_in_database.name = user.name
+
+                connection.session.commit()
+                return user_in_database.to_core_model()
+            except:
+                return None
             finally:
                 connection.session.close()
