@@ -13,7 +13,8 @@ from .controllers.register_with_github import register_with_github
 def register_user_routes(app: Flask):
     # inser user
     app.add_url_rule('/users', view_func=save_new_user, methods=['POST'])
-
+    # update user route
+    app.add_url_rule('/users/<int:user_id>', view_func=update_user, methods=['PUT'])
     #  inser user by github
     app.add_url_rule(
         '/users/register/github', view_func=register_with_github, methods=['POST'])
