@@ -1,6 +1,12 @@
 from dataclasses import dataclass
-import json
+from enum import Enum
 from typing import Optional
+
+
+class GenderEnum(str, Enum):
+    MALE: str = "Male"
+    FEMALE: str = "Female"
+    NOTSPECIFIED: str = "Not specified"
 
 
 @dataclass
@@ -21,7 +27,7 @@ class User:
                  profile_image_url: str = '',
                  last_name: str = '',
                  bio: str = '',
-                 gender: str = 'Not Specified',
+                 gender: str = GenderEnum.NOTSPECIFIED,
                  id: int = None,
                  ) -> None:
         self.id = id

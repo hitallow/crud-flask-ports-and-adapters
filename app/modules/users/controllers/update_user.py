@@ -1,6 +1,6 @@
 from flask.json import jsonify, request
 
-from app.core.domain.user import User
+from app.core.domain.user import GenderEnum, User
 from app.database.repositories.user_repository import UserRepository
 from app.core.usecase.user import UpdateUserUsecase
 
@@ -20,7 +20,7 @@ def update_user(user_id: int):
         name=request_data.get('name', ''),
         email=request_data.get('email', ''),
         username=request_data.get('username', ''),
-        gender=request_data.get('gender', 'Not Specified'),
+        gender=request_data.get('gender', GenderEnum.NOTSPECIFIED),
         last_name=request_data.get('last_name'),
         profile_image_url=request_data.get('profile_image_url', '')
     )

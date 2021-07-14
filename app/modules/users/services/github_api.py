@@ -4,7 +4,7 @@ import os
 
 
 from app.core.ports.user import GetUserInformationsFromGithubInterfacePort, GetUserMetricsGithubInterfacePort, GetUsersInformationsFromGithubWithUsername
-from app.core.domain.user import GithubUser, GithubUserInformations
+from app.core.domain.user import GenderEnum, GithubUser, GithubUserInformations
 
 
 class LoadGithubInformations(GetUserInformationsFromGithubInterfacePort,
@@ -54,7 +54,7 @@ class LoadGithubInformations(GetUserInformationsFromGithubInterfacePort,
             json_user: dict = response.json()['data']['user']
             user = GithubUser(
                 name=json_user['name'], profileImageUrl=json_user['avatarUrl'], bio=json_user[
-                    'bio'], email=json_user['email'], login=json_user['login'], gender=json_user.get('gender', 'Not Specified')
+                    'bio'], email=json_user['email'], login=json_user['login'], gender=json_user.get('gender', GenderEnum.NOTSPECIFIED)
             )
 
         return user
@@ -132,7 +132,7 @@ class LoadGithubInformations(GetUserInformationsFromGithubInterfacePort,
                         login=item.get('login', ''),
                         bio=item.get('bio', ''),
                         profileImageUrl=item.get('avatarUrl', ''),
-                        gender=item.get('gender', 'Not Specified')
+                        gender=item.get('gender', GenderEnum.NOTSPECIFIED)
                     )
                 )
 

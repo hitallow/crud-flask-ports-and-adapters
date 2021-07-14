@@ -1,6 +1,6 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Enum
 
-from app.core.domain.user import User
+from app.core.domain.user import User, GenderEnum
 from app.database.config.db_base import Base
 
 
@@ -15,7 +15,7 @@ class UserModel(Base, User):
     email = Column(String, unique=True)
     profile_image_url = Column(String(100), nullable=True)
     bio = Column(String(30), nullable=True)
-    gender = Column(String(30), default="Not Specified")
+    gender = Column(Enum(GenderEnum), default=GenderEnum.NOTSPECIFIED)
 
     def __repr__(self) -> str:
         return '<UserModel id=%d, name=%s>' % (self.id, self.name)
